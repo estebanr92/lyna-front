@@ -18,6 +18,15 @@ export default styles = StyleSheet.create({
     flex:1,
     flexDirection: 'column',
     marginTop:20,
+    marginBottom:10
+  },
+  caseTypeLabel: {
+    fontSize:18,
+    marginLeft: 10,
+    color: 'black'
+  },
+  caseTypeLabelEmergency: {
+    marginRight:50,
   },
   caseImage: {
     width: 200,

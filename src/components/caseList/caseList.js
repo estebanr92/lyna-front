@@ -4,8 +4,6 @@ import { TabViewAnimated, TabBar, SceneMap } from 'react-native-tab-view';
 import styles from './caseList.styles';
 import colors from '../../utils/colors';
 
-const FirstRoute = () => <View style={[ styles.container, { backgroundColor: '#ff4081' } ]} />;
-const SecondRoute = () => <View style={[ styles.container, { backgroundColor: '#673ab7' } ]} />;
 
 export default class CasesList extends Component {
   constructor(props) {
@@ -21,14 +19,42 @@ export default class CasesList extends Component {
   render() {
     return (
       <View style = {styles.container}>
-        <View style = {{flex:1, flexDirection: 'row', backgroundColor: 'red'}}>
-          <TouchableHighlight onPress={() => {}} underlayColor={'white'} style = {[styles.tabBarDivision, styles.tabBarDivisionLeft]}>
-            <Text>
+        <View style = {styles.tabRow}>
+          <TouchableHighlight onPress={this.changeContext.bind(this,'emergencies')}
+                              underlayColor={'white'}
+                              style = {
+                                [
+                                  styles.tabBarDivision,
+                                  styles.tabBarDivisionLeft,
+                                  this.state.pageContext === 'emergencies' && styles.selectedTab
+                                  ]
+                              }>
+            <Text
+              style={
+                [
+                  styles.tabLabel,
+                  this.state.pageContext === 'emergencies' && styles.selectedTabLabel
+                  ]
+              }>
               Emergencias
             </Text>
           </TouchableHighlight>
-          <TouchableHighlight underlayColor={'white'} onPress={() => {}} style = {styles.tabBarDivision}>
-            <Text>
+          <TouchableHighlight
+            underlayColor={'white'}
+            onPress={this.changeContext.bind(this,'adoptions')}
+            style = {
+              [
+                styles.tabBarDivision,
+                this.state.pageContext === 'adoptions' && styles.selectedTab
+                ]
+            }>
+            <Text
+              style={
+                [
+                  styles.tabLabel,
+                  this.state.pageContext === 'adoptions' && styles.selectedTabLabel
+                  ]
+              }>
               Adopciones
             </Text>
           </TouchableHighlight>
@@ -41,4 +67,9 @@ export default class CasesList extends Component {
       </View>
     )
   }
+
+  changeContext(context) {
+    this.setState({pageContext:context})
+  }
+
 }
