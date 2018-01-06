@@ -20,6 +20,8 @@ export default styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor:'white',
-    flexDirection: 'column'
+    flexDirection: 'column',
+    width:'100%',
+    height:'100%'
   }
 });
