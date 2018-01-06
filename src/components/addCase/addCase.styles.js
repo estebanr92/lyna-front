@@ -19,6 +19,11 @@ export default styles = StyleSheet.create({
     flexDirection: 'column',
     marginTop:20,
   },
+  caseImage: {
+    width: 200,
+    height:200,
+    borderRadius: 70
+  },
   inputLabel: {
     fontSize:20,
     fontWeight:'bold',

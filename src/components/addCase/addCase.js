@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import {View, Text, Image, ScrollView, TouchableHighlight, TextInput, Button} from 'react-native';
 import Geocoder from 'react-native-geocoding';
 import CheckBox from 'react-native-checkbox';
+import ImagePicker from 'react-native-image-picker';
 
 import styles from './addCase.styles';
 const imagePickerPlaceHolder = require('../../assets/imagePickerPlaceholder.png');
@@ -19,7 +20,8 @@ export default class AddCase extends Component {
       contactNumber: '',
       fetchedDirection: '',
       manualDirection: '',
-      isManualLocation: false
+      isManualLocation: false,
+      caseImage: ''
     }
   }
   componentWillMount() {
@@ -43,7 +45,28 @@ export default class AddCase extends Component {
     });
   }
   changeImage() {
+    const options = {
+      title: 'Select Photo',
+      mediaType: 'photo',
+      maxWidth: 350,
+      maxHeight: 350
+    };
+    ImagePicker.showImagePicker(options, (response) => {
+      if (response.didCancel) {
+        console.log('User cancelled image picker');
+      } else if (response.error) {
+        console.log('ImagePicker Error: ', response.error);
+      } else if (response.customButton) {
+        console.log('User tapped custom button: ', response.customButton);
+      } else {
+        // You can also display the image using data:
+        // let source = { uri: 'data:image/jpeg;base64,' + response.data };
+        const imageToSave = 'data:image/jpeg;base64,' + response.data;
+        this.setState({'caseImage':imageToSave});
+        console.log('statsssse', this.state);
 
+      }
+    });
   }
 
   changeToManualLocation() {
@@ -69,6 +92,27 @@ export default class AddCase extends Component {
     }
   }
 
+  renderImage() {
+    console.log('rrender');
+    if(this.state.caseImage.length === 0) {
+      return (
+        <View  style={styles.imagePickerContainer}>
+          <Image source={imagePickerPlaceHolder} />
+          <Text>
+            Fotos
+          </Text>
+        </View>
+      )
+    }
+    console.log('222');
+    return (
+      <View  style={styles.imagePickerContainer}>
+        <Image style={styles.caseImage} source={{uri: this.state.caseImage}} />
+      </View>
+    )
+
+  }
+
   render() {
     const caseTypes = [
       {label: 'Emergencia', value: 'emergency'},
@@ -82,12 +126,7 @@ export default class AddCase extends Component {
         <TouchableHighlight
           underlayColor = {'white'}
           onPress = {this.changeImage.bind(this)}>
-          <View  style={styles.imagePickerContainer}>
-            <Image source={imagePickerPlaceHolder} />
-            <Text>
-              Fotos
-            </Text>
-          </View>
+          {this.renderImage()}
         </TouchableHighlight>
         <View style = {styles.caseType}>
 
